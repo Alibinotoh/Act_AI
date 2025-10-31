@@ -1,6 +1,6 @@
 """
-Image Classification API using Pre-trained Vision Transformer Model
-Model: google/vit-base-patch16-224
+Image Classification API using Pre-trained MobileNet Model
+Model: google/mobilenet_v2_1.0_224 (optimized for low memory)
 """
 
 from fastapi import FastAPI, File, UploadFile, HTTPException
@@ -37,10 +37,11 @@ async def load_model():
     """Load the pre-trained model on startup"""
     global classifier
     print("🔄 Loading pre-trained model...")
-    print("⏳ This may take 1-3 minutes on first run (downloading ~330MB model)...")
+    print("⏳ This may take 1-2 minutes on first run (downloading model)...")
     
-    # This automatically downloads the model if not cached
-    classifier = pipeline("image-classification", model="google/vit-base-patch16-224")
+    # Use a lighter model that works with 512MB RAM (MobileNet)
+    # This model is smaller (~14MB) and more memory efficient
+    classifier = pipeline("image-classification", model="google/mobilenet_v2_1.0_224")
     
     print("✅ Model loaded successfully!")
     print("🚀 API is ready to classify images!")
@@ -56,7 +57,7 @@ async def root():
         # Fallback to API info if HTML not found
         return {
             "message": "Image Classification API",
-            "model": "google/vit-base-patch16-224",
+            "model": "google/mobilenet_v2_1.0_224",
             "status": "running",
             "endpoints": {
                 "/classify": "POST - Upload an image to classify",
@@ -71,7 +72,7 @@ async def api_info():
     """API information endpoint"""
     return {
         "message": "Image Classification API",
-        "model": "google/vit-base-patch16-224",
+        "model": "google/mobilenet_v2_1.0_224",
         "status": "running",
         "endpoints": {
             "/classify": "POST - Upload an image to classify",
@@ -187,7 +188,7 @@ if __name__ == "__main__":
     print("=" * 60)
     print("🤖 Image Classification API")
     print("=" * 60)
-    print("📦 Model: google/vit-base-patch16-224")
+    print("📦 Model: google/mobilenet_v2_1.0_224")
     print("🌐 Custom UI: http://localhost:8000")
     print("📚 API Docs: http://localhost:8000/docs")
     print("🔧 API Info: http://localhost:8000/api")
