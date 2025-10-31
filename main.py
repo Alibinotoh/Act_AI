@@ -48,6 +48,7 @@ async def load_model():
 
 
 @app.get("/")
+@app.head("/")
 async def root():
     """Serve the custom UI"""
     html_path = Path(__file__).parent / "index.html"

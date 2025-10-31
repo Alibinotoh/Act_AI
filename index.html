@@ -329,7 +329,7 @@
         </div>
 
         <div class="footer">
-            Powered by <a href="https://huggingface.co/google/vit-base-patch16-224" target="_blank">Google Vision Transformer</a>
+            Powered by <a href="https://huggingface.co/google/mobilenet_v2_1.0_224" target="_blank">Google MobileNetV2</a>
         </div>
     </div>
 
@@ -405,7 +405,7 @@
                 const formData = new FormData();
                 formData.append('file', file);
 
-                const response = await fetch('http://localhost:8000/classify', {
+                const response = await fetch('/classify', {
                     method: 'POST',
                     body: formData
                 });
@@ -418,7 +418,7 @@
                 displayResults(data);
             } catch (error) {
                 console.error('Error:', error);
-                showError('Failed to classify image. Make sure the API is running on http://localhost:8000');
+                showError('Failed to classify image. Please try again.');
             } finally {
                 loading.classList.remove('active');
             }
